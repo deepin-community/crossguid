@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/architecture.mk
+ifeq ($(origin CXX),default)
+CXX := $(DEB_HOST_GNU_TYPE)-g++
+endif
+
+INSTDIRS = debian/tmp/usr/include debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)
+
+%:
+	dh $@ 
+
+override_dh_auto_build:
+	$(CXX) -shared -fPIC -Wall -std=c++11 -Wl,-soname,libcrossguid.so.0 -DGUID_LIBUUID \
+	-I/usr/include/uuid  guid.cpp -o libcrossguid.so.0.0.1 $(CPPFLAGS) $(CXXFLAGS) -luuid \
+	$(LDFLAGS)
+	ar x /usr/lib/$(DEB_HOST_MULTIARCH)/libuuid.a
+	ar cr libcrossguid.a *.o
+
+override_dh_auto_install: $(INSTDIRS)
+	cp guid.h debian/tmp/usr/include/
+	cp libcrossguid.* debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/
+
+override_dh_link:
+	dh_link -plibcrossguid-dev usr/lib/$(DEB_HOST_MULTIARCH)/libcrossguid.so.0.0.1 usr/lib/$(DEB_HOST_MULTIARCH)/libcrossguid.so
+	dh_link -plibcrossguid0 usr/lib/$(DEB_HOST_MULTIARCH)/libcrossguid.so.0.0.1 usr/lib/$(DEB_HOST_MULTIARCH)/libcrossguid.so.0
+
+$(INSTDIRS):
+	mkdir -p $@
+
+override_dh_clean:
+	dh_clean libcrossguid.* *.o

@@ -1,0 +1,27 @@
+Source: crossguid
+Section: libs
+Priority: optional
+Maintainer: Christian Marillat <marillat@deb-multimedia.org>
+Uploaders: Balint Reczey <balint@balintreczey.hu>,
+Homepage: https://github.com/graeme-hill/crossguid
+Standards-Version: 3.9.7
+Build-Depends: debhelper (>= 9), uuid-dev
+Vcs-Browser: https://salsa.debian.org/debian/crossguid
+Vcs-Git: https://salsa.debian.org/debian/crossguid.git -b master
+
+Package: libcrossguid-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libcrossguid0 (= ${binary:Version}), ${misc:Depends}
+Description: C++ UUID library headers
+ Development headers for Graeme Hill's cross platform C++ UUID library.
+
+Package: libcrossguid0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Breaks: libcrossguid0v4
+Replaces: libcrossguid0v4
+Description: C++ UUID library
+ Graeme Hill's cross platform C++ UUID library.
