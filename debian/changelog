@@ -1,3 +1,9 @@
+crossguid (0.0+git200150803-4deepin0) unstable; urgency=medium
+
+  * No source change upload against GCC 12.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Thu, 19 Sep 2024 22:44:24 +0800
+
 crossguid (0.0+git200150803-4) unstable; urgency=medium
 
   * Mark a symbol optional that disappears on ppc64el with -O3 (Closes: #905579)
